@@ -1,0 +1,136 @@
+/* ============================================================
+   ANTIGRAVITY POMODORO — Global Design System
+   ============================================================ */
+
+:root {
+  /* Colors */
+  --bg-base: #0d0f14;
+  --bg-surface: rgba(255, 255, 255, 0.04);
+  --bg-surface-hover: rgba(255, 255, 255, 0.07);
+  --bg-glass: rgba(255, 255, 255, 0.06);
+  --bg-glass-border: rgba(255, 255, 255, 0.10);
+  --bg-modal: rgba(15, 17, 24, 0.96);
+
+  /* Mode accent colors */
+  --focus-primary: #7c6af7;
+  --focus-glow: rgba(124, 106, 247, 0.25);
+  --focus-ring: rgba(124, 106, 247, 0.6);
+  --short-primary: #4fc3a1;
+  --short-glow: rgba(79, 195, 161, 0.20);
+  --short-ring: rgba(79, 195, 161, 0.6);
+  --long-primary: #5ba4f5;
+  --long-glow: rgba(91, 164, 245, 0.20);
+  --long-ring: rgba(91, 164, 245, 0.6);
+
+  /* Dynamic (set by JS via data-mode) */
+  --mode-primary: var(--focus-primary);
+  --mode-glow: var(--focus-glow);
+  --mode-ring: var(--focus-ring);
+
+  /* Text */
+  --text-primary: rgba(255, 255, 255, 0.92);
+  --text-secondary: rgba(255, 255, 255, 0.50);
+  --text-muted: rgba(255, 255, 255, 0.28);
+
+  /* Spacing */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'DM Serif Display', Georgia, serif;
+
+  /* Transitions */
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Mode theming via data attribute */
+[data-mode="focus"] {
+  --mode-primary: var(--focus-primary);
+  --mode-glow: var(--focus-glow);
+  --mode-ring: var(--focus-ring);
+}
+[data-mode="short"] {
+  --mode-primary: var(--short-primary);
+  --mode-glow: var(--short-glow);
+  --mode-ring: var(--short-ring);
+}
+[data-mode="long"] {
+  --mode-primary: var(--long-primary);
+  --mode-glow: var(--long-glow);
+  --mode-ring: var(--long-ring);
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Animated background orbs */
+body::before, body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+  transition: background 1.2s var(--ease-smooth);
+}
+body::before {
+  width: 600px; height: 600px;
+  top: -200px; left: -100px;
+  background: var(--mode-glow);
+  opacity: 0.6;
+}
+body::after {
+  width: 500px; height: 500px;
+  bottom: -150px; right: -100px;
+  background: var(--mode-glow);
+  opacity: 0.4;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Glass card utility ---- */
+.glass-card {
+  background: var(--bg-glass);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ---- Button base ---- */
+button {
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: transform 0.15s var(--ease-spring), opacity 0.15s ease;
+}
+button:active { transform: scale(0.96); }
+button:disabled { opacity: 0.38; cursor: not-allowed; }
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { display: none; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }

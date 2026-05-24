@@ -1,0 +1,173 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  transition: --mode-primary 0.8s ease;
+}
+
+/* ---- Header ---- */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 52px 32px 20px 32px; /* 52px top padding clears the native 40px controls */
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(13, 15, 20, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  -webkit-app-region: drag;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brandIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 10px var(--mode-ring);
+  transition: box-shadow 0.8s ease;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50%       { transform: scale(0.95); filter: brightness(0.85); }
+}
+
+.brandName {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.18s var(--ease-spring), border-color 0.2s ease;
+  -webkit-app-region: no-drag;
+}
+
+.iconBtn:hover {
+  background: rgba(255, 255, 255, 0.11);
+  color: var(--text-primary);
+  transform: scale(1.08);
+}
+
+.iconBtn.active,
+.iconBtn.soundOn {
+  background: rgba(124, 106, 247, 0.12);
+  border-color: rgba(124, 106, 247, 0.25);
+  color: var(--mode-primary);
+}
+
+/* ---- Main Layout ---- */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 48px 20px 32px;
+}
+
+/* ---- Timer Card ---- */
+.timerCard {
+  width: 100%;
+  max-width: 480px;
+  padding: 36px 32px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle inner glow that follows mode color */
+.timerCard::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: var(--mode-glow);
+  filter: blur(80px);
+  pointer-events: none;
+  transition: background 1s ease;
+  opacity: 0.5;
+}
+
+.timerArea {
+  position: relative;
+  z-index: 1;
+}
+
+.tagline {
+  margin-top: 6px;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-align: center;
+  transition: color 0.6s ease;
+}
+
+/* ---- History Card ---- */
+.historyCard {
+  width: 100%;
+  max-width: 480px;
+  padding: 28px 24px;
+  animation: slideDown 0.3s var(--ease-spring);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.historyTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+/* ---- Footer ---- */
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 520px) {
+  .header { padding: 16px 20px; }
+  .timerCard { padding: 28px 20px 32px; gap: 24px; }
+  .main { padding: 32px 16px 24px; }
+}

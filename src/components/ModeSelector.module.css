@@ -1,0 +1,46 @@
+.nav {
+  display: flex;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  padding: 5px;
+}
+
+.tab {
+  flex: 1;
+  padding: 9px 18px;
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--text-secondary);
+  background: transparent;
+  white-space: nowrap;
+  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.tab:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text-primary);
+}
+
+.tab.active.focus {
+  background: rgba(124, 106, 247, 0.18);
+  color: var(--focus-primary);
+  box-shadow: 0 0 0 1px rgba(124, 106, 247, 0.3) inset;
+}
+.tab.active.short {
+  background: rgba(79, 195, 161, 0.15);
+  color: var(--short-primary);
+  box-shadow: 0 0 0 1px rgba(79, 195, 161, 0.3) inset;
+}
+.tab.active.long {
+  background: rgba(91, 164, 245, 0.15);
+  color: var(--long-primary);
+  box-shadow: 0 0 0 1px rgba(91, 164, 245, 0.3) inset;
+}
+
+@media (max-width: 420px) {
+  .tab { padding: 8px 10px; font-size: 0.75rem; }
+}

@@ -1,0 +1,147 @@
+.wrapper {
+  width: 100%;
+}
+
+.historyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.count {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.clearBtn {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: none;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.clearBtn:hover {
+  color: #f87171;
+  background: rgba(248,113,113,0.08);
+  border-color: rgba(248,113,113,0.2);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius-md);
+  transition: background 0.2s ease;
+}
+.item:hover { background: rgba(255,255,255,0.07); }
+
+.item.newest {
+  border-color: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+}
+
+.modeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.modeDot.focus { background: var(--focus-primary); box-shadow: 0 0 6px var(--focus-ring); }
+.modeDot.short  { background: var(--short-primary); box-shadow: 0 0 6px var(--short-ring); }
+.modeDot.long   { background: var(--long-primary);  box-shadow: 0 0 6px var(--long-ring);  }
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.modeLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.modeLabel.focus { color: var(--focus-primary); }
+.modeLabel.short  { color: var(--short-primary); }
+.modeLabel.long   { color: var(--long-primary);  }
+
+.duration {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.datetime {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.badge {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+.badge.completed {
+  background: rgba(79, 195, 161, 0.12);
+  color: var(--short-primary);
+  border: 1px solid rgba(79, 195, 161, 0.2);
+}
+.badge.skipped {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+/* Empty state */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  opacity: 0.4;
+  margin-bottom: 4px;
+}
+
+.emptyTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.emptyText {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  max-width: 260px;
+  line-height: 1.6;
+}
