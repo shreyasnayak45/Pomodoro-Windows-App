@@ -1,7 +1,7 @@
 /* ============================================================
    SettingsPanel — Customizable durations for each mode
    ============================================================ */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './SettingsPanel.module.css';
 
 const MODES = [
@@ -12,6 +12,26 @@ const MODES = [
 
 export default function SettingsPanel({ settings, onSave, onClose }) {
   const [local, setLocal] = useState({ ...settings });
+  const [appVersion, setAppVersion] = useState('');
+  const [updateStatus, setUpdateStatus] = useState(null);
+  const [updateProgress, setUpdateProgress] = useState(0);
+
+  useEffect(() => {
+    if (window.electronAPI && window.electronAPI.updater) {
+      window.electronAPI.updater.getVersion().then(setAppVersion);
+      const unsubscribe = window.electronAPI.updater.onStatusChange((data) => {
+        setUpdateStatus(data.status);
+        if (data.percent) setUpdateProgress(Math.round(data.percent));
+      });
+      return () => unsubscribe();
+    }
+  }, []);
+
+  const handleCheckUpdate = () => {
+    if (window.electronAPI && window.electronAPI.updater) {
+      window.electronAPI.updater.check();
+    }
+  };
 
   const handleChange = (key, val) => {
     const num = parseInt(val, 10);
@@ -81,6 +101,29 @@ export default function SettingsPanel({ settings, onSave, onClose }) {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className={styles.sectionDivider}></div>
+        <h3 className={styles.sectionTitle}>App Updates</h3>
+        <div className={styles.updateSection}>
+          <div className={styles.updateInfo}>
+            <span className={styles.versionText}>Version {appVersion || 'Unknown'}</span>
+            <span className={styles.updateStatusText}>
+              {updateStatus === 'checking' && 'Checking...'}
+              {updateStatus === 'available' && 'Update found!'}
+              {updateStatus === 'up-to-date' && 'You are up to date!'}
+              {updateStatus === 'downloading' && `Downloading: ${updateProgress}%`}
+              {updateStatus === 'downloaded' && 'Ready to install!'}
+              {updateStatus === 'error' && 'Update error.'}
+            </span>
+          </div>
+          <button 
+            className={styles.updateButton} 
+            onClick={handleCheckUpdate} 
+            disabled={updateStatus === 'checking' || updateStatus === 'downloading'}
+          >
+            Check for Updates
+          </button>
         </div>
 
         <div className={styles.actions}>

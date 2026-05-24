@@ -9,6 +9,7 @@ import TimerDisplay from './components/TimerDisplay';
 import Controls from './components/Controls';
 import SettingsPanel from './components/SettingsPanel';
 import SessionHistory from './components/SessionHistory';
+import UpdateBanner from './components/UpdateBanner';
 import styles from './App.module.css';
 
 // Icon: Gear
@@ -71,6 +72,7 @@ export default function App() {
 
   return (
     <div className={styles.app} data-mode={mode}>
+      <UpdateBanner />
       {/* Header */}
       <header className={styles.header}>
         <div className={styles.brand}>

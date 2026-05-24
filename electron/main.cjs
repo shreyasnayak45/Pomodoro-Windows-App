@@ -1,5 +1,9 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
+const { autoUpdater } = require('electron-updater')
+
+autoUpdater.autoDownload = false;
+autoUpdater.autoInstallOnAppQuit = true;
 
 const isDev = process.env.VITE_DEV_SERVER_URL !== undefined;
 
@@ -38,6 +42,52 @@ function createWindow() {
     // Load the built HTML file in production mode
     win.loadFile(path.join(__dirname, '../dist/index.html'))
   }
+
+  // Handle updater IPC
+  ipcMain.handle('updater:check', () => {
+    autoUpdater.checkForUpdates().catch(err => {
+      win.webContents.send('updater:status', { status: 'error', error: err.message });
+    });
+  });
+
+  ipcMain.handle('updater:download', () => {
+    autoUpdater.downloadUpdate().catch(err => {
+      win.webContents.send('updater:status', { status: 'error', error: err.message });
+    });
+  });
+
+  ipcMain.handle('updater:quitAndInstall', () => {
+    autoUpdater.quitAndInstall();
+  });
+
+  ipcMain.handle('updater:getVersion', () => {
+    return app.getVersion();
+  });
+
+  // Wire autoUpdater events to renderer
+  autoUpdater.on('checking-for-update', () => {
+    win.webContents.send('updater:status', { status: 'checking' });
+  });
+  
+  autoUpdater.on('update-available', (info) => {
+    win.webContents.send('updater:status', { status: 'available', version: info.version });
+  });
+
+  autoUpdater.on('update-not-available', (info) => {
+    win.webContents.send('updater:status', { status: 'up-to-date', version: info.version });
+  });
+
+  autoUpdater.on('error', (err) => {
+    win.webContents.send('updater:status', { status: 'error', error: err.message });
+  });
+
+  autoUpdater.on('download-progress', (progressObj) => {
+    win.webContents.send('updater:status', { status: 'downloading', percent: progressObj.percent });
+  });
+
+  autoUpdater.on('update-downloaded', (info) => {
+    win.webContents.send('updater:status', { status: 'downloaded', version: info.version });
+  });
 }
 
 app.whenReady().then(() => {
